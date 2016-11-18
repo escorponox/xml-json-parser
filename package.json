@@ -5,7 +5,9 @@
   "scripts": {
     "start": "gulp",
     "production": "NODE_ENV=production gulp production",
-    "deploy:gh-pages": "npm run production && gulp deploy:gh-pages"
+    "deploy:gh-pages": "npm run production && gulp deploy:gh-pages",
+    "test": "babel-tape-runner ./test/**/*.test.js | tap-diff",
+    "test-summ": "babel-tape-runner ./test/**/*.test.js | tap-summary"
   },
   "author": {
     "name": "Carlos Coves Prieto",
@@ -22,6 +24,7 @@
     "babel-loader": "^6.2.7",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
+    "babel-tape-runner": "^2.0.1",
     "browser-sync": "^2.17.6",
     "cssnano": "^3.8.0",
     "del": "^2.2.2",
