@@ -1,0 +1,9 @@
+$mq-tablet: 450px;
+$mq-landscape: 700px;
+$mq-desktop: 1000px;
+
+@mixin mq($min-width) {
+  @media only screen and (min-width: $min-width) {
+    @content
+  }
+};
