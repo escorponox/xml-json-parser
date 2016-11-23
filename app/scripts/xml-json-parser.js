@@ -26,17 +26,17 @@ function parseElement(element) {
 const parseElements = (elements) => {
 
   const elementCounter = countElements(elements);
-  const result = {};
-  elements.forEach((element) => {
+
+  return elements.reduce((prev, element) => {
     if (elementCounter[element.name] > 1) {
-      if (!result.hasOwnProperty(element.name)) result[element.name] = [];
-      result[element.name].push(parseElement(element));
+      if (!prev.hasOwnProperty(element.name)) prev[element.name] = [];
+      prev[element.name].push(parseElement(element));
     }
     else {
-      result[element.name] = parseElement(element);
+      prev[element.name] = parseElement(element);
     }
-  });
-  return result;
+    return prev
+  }, {});
 };
 
 const xmlJsonParser = (xmlString = '') => {
