@@ -7,6 +7,7 @@
     "production": "NODE_ENV=production gulp production",
     "deploy:gh-pages": "npm run production && gulp deploy:gh-pages",
     "test": "babel-tape-runner ./test/**/*.test.js | tap-diff",
+    "test-verbose": "babel-tape-runner ./test/**/*.test.js",
     "test-summ": "babel-tape-runner ./test/**/*.test.js | tap-summary"
   },
   "author": {
