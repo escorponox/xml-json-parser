@@ -13,7 +13,7 @@ const countElements = (elements) => elements.reduce((prev, curr) => {
   return prev;
 }, {});
 
-function parseElement(element) {
+const parseElement = (element) => {
   const parsedElement = parseAttributes(element.attributes);
   if (typeof element.content === 'object') {
     Object.assign(parsedElement, element.content);
@@ -22,7 +22,8 @@ function parseElement(element) {
   }
   return Object.keys(parsedElement).length ? parsedElement : element.content;
 
-}
+};
+
 const parseElements = (elements) => {
 
   const elementCounter = countElements(elements);
@@ -39,20 +40,32 @@ const parseElements = (elements) => {
   }, {});
 };
 
+const innerText = (str, start, end) =>
+start < end
+&& /\S/g.test(str.substring(start, end));
+
 const xmlJsonParser = (xmlString = '') => {
   const openingTag = /<([a-zA-z_][\w\-]*)([^\/>]*)(\/)?>/g;
   const innerElements = [];
   let execResult;
+  let lastIndex = 0;
   while ((execResult = openingTag.exec(xmlString)) !== null) {
     const closingTag = `</${execResult[1]}>`;
     const closingTagIndex = xmlString.indexOf(closingTag, openingTag.lastIndex);
+    if (innerText(xmlString, lastIndex, execResult.index)) {
+      innerElements.push({
+        name: '_text_',
+        attributes: '',
+        content: xmlString.substring(lastIndex, execResult.index)
+      });
+    }
     innerElements.push({
       name: execResult[1],
       attributes: execResult[2],
       content: execResult[3] === '\/' ? ''
         : xmlJsonParser(xmlString.substring(execResult.index + execResult[0].length, closingTagIndex))
     });
-    openingTag.lastIndex = execResult[3] === '\/' ? openingTag.lastIndex : closingTagIndex + closingTag.length;
+    openingTag.lastIndex = lastIndex = execResult[3] === '\/' ? openingTag.lastIndex : closingTagIndex + closingTag.length;
   }
 
   return innerElements.length ? parseElements(innerElements) : xmlString;

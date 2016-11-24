@@ -34,7 +34,7 @@ test('root element', (t) => {
   t.end();
 });
 
-test('complex', (t) => {
+test('multiple elements of same type', (t) => {
 
   t.deepEqual(parser('<files><file>a</file><file>b</file></files>'),
     {
@@ -44,6 +44,23 @@ test('complex', (t) => {
     },
     'multiple inner tags of same type is an array');
 
+  t.deepEqual(parser(`<files>
+  a
+  <file>a</file>
+  b
+  <file>b</file>
+  
+  </files>`), {
+    files: {
+      file: ['a', 'b'],
+      _text_: ['\n  a\n  ', '\n  b\n  ']
+    }
+  }, 'Multiple text content');
+
+  t.end();
+});
+
+test('integration', (t) => {
 
   t.deepEqual(parser(`<file lala="ajs">
 <title >Pandora</title>
@@ -113,7 +130,7 @@ test('complex', (t) => {
           emptyTag: ''
         }]
     }
-  }, 'a complex audio files xml');
+  }, 'complex audio files xml');
 
   t.end();
 });
