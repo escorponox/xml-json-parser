@@ -1,6 +1,3 @@
-// var test = require('tape');
-// var parser = require('../../app/scripts/xml-json-parser');
-
 import test from 'tape';
 import parser from '../../app/scripts/xml-json-parser';
 
@@ -55,7 +52,20 @@ test('multiple elements of same type', (t) => {
       file: ['a', 'b'],
       _text_: ['\n  a\n  ', '\n  b\n  ']
     }
-  }, 'Multiple text content');
+  }, 'Multiple text content. Text content first');
+
+  t.deepEqual(parser(`<files>
+  
+  <file>a</file>
+  a
+  <file>b</file>
+  b
+  </files>`), {
+    files: {
+      file: ['a', 'b'],
+      _text_: ['\n  a\n  ', '\n  b\n  ']
+    }
+  }, 'More multiple text content. Text content at the end');
 
   t.end();
 });
