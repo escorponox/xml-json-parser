@@ -21,16 +21,20 @@
 <main>
   <form class="c-coves-form">
     <div class="c-coves-form__input-container--column">
+      <label for="xml-file" class="c-coves-form__label">XML File</label>
+      <input id="xml-file" type="file" accept="text/xml" class="">
       <label for="xml-area" class="c-coves-form__label">XML</label>
-      <textarea id="xml-area" class="c-coves-form__input c-coves-form__textarea"></textarea>
+      <textarea id="xml-area" rows="15" cols="60" class="c-coves-form__input c-coves-form__textarea"></textarea>
     </div>
-    <div>
-      <button><i class="icon ion-arrow-down-b"></i></button>
-      <button><i class="icon ion-arrow-up-b"></i></button>
+    <div class="c-button-container">
+      <button type="button" id="to-json" class="c-button">Parse XML</button>
     </div>
     <div class="c-coves-form__input-container--column">
       <label for="json-area" class="c-coves-form__label">JSON</label>
-      <textarea id="json-area" class="c-coves-form__input c-coves-form__textarea"></textarea>
+      <textarea id="json-area" rows="15" cols="60" class="c-coves-form__input c-coves-form__textarea"></textarea>
+    </div>
+    <div class="c-button-container">
+      <button type="button" id="download-json" class="c-button">Download JSON</button>
     </div>
   </form>
 </main>

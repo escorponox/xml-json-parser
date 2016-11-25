@@ -4,6 +4,7 @@ blockquote, p, address,
 hr,
 table,
 fieldset, figure,
-pre {
+pre,
+input{
   margin-bottom: $base-spacing-unit;
 }

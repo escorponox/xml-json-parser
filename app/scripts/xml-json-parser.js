@@ -43,7 +43,6 @@ const parseElements = (elements) => {
 const innerText = (str, start, end) => start < end && /\S/g.test(str.substring(start, end));
 
 const findClosingTag = (str, tagName, start) => {
-  console.log('parametros\n', str, tagName, start);
   const closingTag = `</${tagName}>`;
   const nestedTag = `<${tagName}`;
 
@@ -53,7 +52,7 @@ const findClosingTag = (str, tagName, start) => {
   return (nestedTagIndex === -1 || closingTagIndex < nestedTagIndex) ? closingTagIndex : findClosingTag(str, tagName, closingTagIndex + 1);
 };
 
-const xmlJsonParser = (xmlString = '') => {
+const collectTags = (xmlString) => {
   const openingTag = /<([a-zA-z_][\w\-]*)([^\/>]*)(\/)?>/g;
   const innerElements = [];
   let execResult;
@@ -61,7 +60,6 @@ const xmlJsonParser = (xmlString = '') => {
   while ((execResult = openingTag.exec(xmlString)) !== null) {
     const closingTag = `</${execResult[1]}>`;
     const closingTagIndex = findClosingTag(xmlString, execResult[1], openingTag.lastIndex);
-    console.log('resultado', closingTag,closingTagIndex);
     if (innerText(xmlString, lastIndex, execResult.index)) {
       innerElements.push({
         name: '_text_',
@@ -73,7 +71,7 @@ const xmlJsonParser = (xmlString = '') => {
       name: execResult[1],
       attributes: execResult[2],
       content: execResult[3] === '\/' ? ''
-        : xmlJsonParser(xmlString.substring(execResult.index + execResult[0].length, closingTagIndex))
+        : collectTags(xmlString.substring(execResult.index + execResult[0].length, closingTagIndex))
     });
     openingTag.lastIndex = lastIndex = execResult[3] === '\/' ? openingTag.lastIndex : closingTagIndex + closingTag.length;
   }
@@ -87,4 +85,9 @@ const xmlJsonParser = (xmlString = '') => {
   return innerElements.length ? parseElements(innerElements) : xmlString;
 };
 
-export default xmlJsonParser;
+
+const removeDeclaration = (xmlString) => xmlString.replace(/<\?xml (.|[\r\n])*\?>/, '');
+
+const parseXml = (xmlString = '') => collectTags(removeDeclaration(xmlString));
+
+export default parseXml;

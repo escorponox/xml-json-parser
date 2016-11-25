@@ -5,16 +5,17 @@ header {
   color: $color-white;
   height: 4rem;
   width: 100%;
+  z-index: 10;
 }
 
 main {
+  @include flex-container(column);
   flex-grow: 1;
-  padding-top: 2px;
   width: 100%;
 }
 
 footer {
-  @include flex-container(column,center);
+  @include flex-container(column,stretch);
   background-color: $color-grey-dark;
   color: $color-grey-light;
   height: 4rem;

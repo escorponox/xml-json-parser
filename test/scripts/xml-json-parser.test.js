@@ -70,6 +70,46 @@ test('multiple elements of same type', (t) => {
   t.end();
 });
 
+test('declaration', (t) => {
+  t.deepEqual(parser(`<?xml version="1.0"
+encoding="UTF-8"?>
+<people>
+  <person>
+    <name>Pepito Garcia</name>
+  </person>
+</people>`), {
+    people: {
+      person: {
+        name: 'Pepito Garcia'
+      }
+    }
+  }, 'xml declaration is filtered');
+  t.end();
+});
+
+test('nesting', (t) => {
+  t.deepEqual(parser(`<people>
+  <person>
+    <children>
+      <person>
+        <name>Juanito Garcia</name>
+      </person>
+    </children>
+  </person>
+</people>`), {
+    people: {
+      person: {
+        children: {
+          person: {
+            name: 'Juanito Garcia'
+          }
+        }
+      }
+    }
+  }, 'Person inside person children');
+  t.end();
+});
+
 test('integration', (t) => {
 
   t.deepEqual(parser(`<file lala="ajs">

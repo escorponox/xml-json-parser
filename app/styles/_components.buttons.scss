@@ -1,0 +1,20 @@
+.c-button {
+  background-color: $color-blue;
+  border: none;
+  border-radius: $base-radius;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-block;
+  padding: $base-spacing-unit;
+  text-align: center;
+  user-select: none;
+
+  &:hover,
+  &:active {
+    background-color: $color-blue-dark;
+  }
+}
+
+.c-button-container {
+  margin-bottom: $base-spacing-unit;
+}
